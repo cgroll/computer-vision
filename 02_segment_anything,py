@@ -1,0 +1,55 @@
+# %%
+# content: segment anything on video, showing masks and class labels
+
+from ultralytics import FastSAM
+import cv2
+from PIL import Image
+from utils import fast_process # primarily used to visualize the masks
+import numpy as np
+
+# Define an inference source
+source = "data/raw_input/20250417_120203.mp4"
+
+# Create a FastSAM model
+model = FastSAM("FastSAM-s.pt")  # or FastSAM-x.pt
+
+# Get first frame from video
+cap = cv2.VideoCapture(source)
+ret, first_frame = cap.read()
+cap.release()
+
+# Resize first frame to 1024x1024
+first_frame = cv2.resize(first_frame, (1024, 1024), interpolation=cv2.INTER_AREA)
+
+# %%
+# Run inference on first frame
+results = model(first_frame, device="cpu", retina_masks=True, imgsz=1024, conf=0.4, iou=0.9)
+
+# Get masks from results
+masks = results[0].masks.data
+image = cv2.cvtColor(first_frame, cv2.COLOR_BGR2RGB)
+image = Image.fromarray(image)
+
+# Process masks with random colors for each segment
+processed_image = fast_process(
+    masks,
+    image,
+    device="cpu",
+    scale=1,
+    better_quality=True,
+    mask_random_color=True,
+    withContours=True
+)
+
+# Convert back to OpenCV format for display
+processed_image = cv2.cvtColor(np.array(processed_image), cv2.COLOR_RGBA2BGR)
+
+# Display the processed frame
+cv2.imshow("FastSAM Results", processed_image)
+cv2.waitKey(0) 
+cv2.destroyAllWindows()
+
+# Save the processed image to file
+output_path = 'data/processed_output/20250417_120203_segmentation.jpg'
+cv2.imwrite(output_path, processed_image)
+
