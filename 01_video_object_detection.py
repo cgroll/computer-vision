@@ -8,7 +8,7 @@ import cv2
 model = YOLO('yolo11n.pt')
 
 # Path to video file
-video_path = 'data/raw_input/20250417_120203.mp4'
+video_path = 'data/raw_input/person_in_room.mp4'
 
 # %%
 
@@ -23,7 +23,7 @@ fps = int(cap.get(cv2.CAP_PROP_FPS))
 cap.release()
 
 # Create video writer
-output_path = 'data/processed_output/20250417_120203_object_detection.mp4'
+output_path = 'data/processed_output/person_in_room_object_detection.mp4'
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out = cv2.VideoWriter(output_path, fourcc, fps, (frame_width, frame_height))
 
@@ -37,3 +37,5 @@ for result in results:
 
 # Release resources
 out.release()
+
+# %%

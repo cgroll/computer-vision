@@ -8,7 +8,7 @@ from utils import fast_process # primarily used to visualize the masks
 import numpy as np
 
 # Define an inference source
-source = "data/raw_input/20250417_120203.mp4"
+source = "data/raw_input/person_in_room.mp4"
 
 # Create a FastSAM model
 model = FastSAM("FastSAM-s.pt")  # or FastSAM-x.pt
@@ -50,6 +50,6 @@ cv2.waitKey(0)
 cv2.destroyAllWindows()
 
 # Save the processed image to file
-output_path = 'data/processed_output/20250417_120203_segmentation.jpg'
+output_path = 'data/processed_output/person_in_room_segmentation.jpg'
 cv2.imwrite(output_path, processed_image)
 

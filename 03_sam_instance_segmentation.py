@@ -1,5 +1,6 @@
 # %%
 # content: instance segmentation with text prompt
+# conclusion: takes pretty long and does not work very well
 
 from ultralytics import FastSAM
 import cv2
@@ -8,7 +9,7 @@ import numpy as np
 from tqdm import tqdm
 
 # Define an inference source
-source = "data/raw_input/20250417_120203.mp4"
+source = "data/raw_input/person_in_room.mp4"
 
 # Create a FastSAM model
 model = FastSAM("FastSAM-s.pt")  # or FastSAM-x.pt
@@ -56,7 +57,7 @@ height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
 cap.release()
 
 # Create output video writer
-output_path = "data/processed_output/instance_segmentation.mp4"
+output_path = "data/processed_output/person_segmentation.mp4"
 fourcc = cv2.VideoWriter_fourcc(*'mp4v')
 out = cv2.VideoWriter(output_path, fourcc, fps, (1024, 1024))
 
@@ -119,3 +120,5 @@ for frame_num, frame_results in enumerate(tqdm(all_results, desc="Creating video
 # Release video writer
 out.release()
 print(f"Video saved to {output_path}")
+
+# %%

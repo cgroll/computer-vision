@@ -1,12 +1,12 @@
 # %%
-# content: instance segmentation with tracking and pre-given class label
+# content: YOLO instance segmentation with tracking and pre-given class label
 
 import cv2
 
 from ultralytics import solutions
 
 # cap = cv2.VideoCapture("data/raw_input/20250417_120203.mp4")
-cap = cv2.VideoCapture("data/raw_input/20250418_212412.mp4")
+cap = cv2.VideoCapture("data/raw_input/laptop_home_office_daylight.mp4")
 assert cap.isOpened(), "Error reading video file"
 
 # Video writer
